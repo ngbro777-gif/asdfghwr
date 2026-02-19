@@ -2,19 +2,21 @@ import logging
 import json
 import sqlite3
 import os
-import random
 from datetime import datetime
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
-from aiogram.utils.deep_linking import create_start_link
 import config
+
+# Импорт auth (теперь должен работать)
 from utils.auth import AuthManager
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=config.BOT_TOKEN)
 dp = Dispatcher()
 auth_manager = AuthManager()
+
+# ... остальной код bot.py без изменений ...
 
 # Инициализация БД
 def init_db():
