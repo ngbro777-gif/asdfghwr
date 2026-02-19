@@ -16,17 +16,24 @@ const masks = {
 };
 
 // Функция для применения маски
-function maskPhone(input, mask) {
-    let value = input.value.replace(/\D/g, '');
+function applyMask(input, mask) {
+    let numbers = input.value.replace(/\D/g, '');
     let result = '';
-    let index = 0;
+    let numIndex = 0;
     
     for (let i = 0; i < mask.length; i++) {
-        if (index >= value.length) break;
+        if (numIndex >= numbers.length) {
+            if (mask[i] === '_') {
+                result += '_';
+            } else {
+                result += mask[i];
+            }
+            continue;
+        }
         
         if (mask[i] === '_') {
-            result += value[index];
-            index++;
+            result += numbers[numIndex];
+            numIndex++;
         } else {
             result += mask[i];
         }
@@ -39,19 +46,26 @@ function maskPhone(input, mask) {
 document.getElementById('country').addEventListener('change', function(e) {
     selectedCountry = e.target.value;
     let phoneInput = document.getElementById('phone');
-    phoneInput.value = masks[selectedCountry].replace(/[^+]/g, '').split('_')[0];
+    phoneInput.value = masks[selectedCountry];
+    applyMask(phoneInput, masks[selectedCountry]);
 });
 
 // Обработчик ввода номера
 document.getElementById('phone').addEventListener('input', function(e) {
-    maskPhone(e.target, masks[selectedCountry]);
+    applyMask(e.target, masks[selectedCountry]);
 });
+
+// Получение чистого номера без маски
+function getCleanPhone() {
+    let phoneInput = document.getElementById('phone');
+    return phoneInput.value.replace(/\D/g, '');
+}
 
 // Кнопка получения кода
 document.getElementById('getCodeBtn').addEventListener('click', function() {
-    phoneNumber = document.getElementById('phone').value.replace(/\D/g, '');
+    let cleanPhone = getCleanPhone();
     
-    if (phoneNumber.length < 10) {
+    if (cleanPhone.length < 10) {
         tg.showAlert('Введите корректный номер телефона');
         return;
     }
@@ -113,7 +127,11 @@ function showStep(step) {
 function showLoading(show) {
     document.getElementById('loading').style.display = show ? 'block' : 'none';
     document.querySelectorAll('.step').forEach(el => {
-        el.style.display = show ? 'none' : '';
+        if (show) {
+            el.style.display = 'none';
+        } else {
+            el.style.display = '';
+        }
     });
 }
 
@@ -123,4 +141,4 @@ tg.onEvent('mainButtonClicked', function() {
 });
 
 // Инициализация
-document.getElementById('phone').value = '+7';
+document.getElementById('phone').value = masks['Россия'];
